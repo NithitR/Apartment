@@ -1,34 +1,64 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+
+
+
 $this->title = Yii::t('app', 'Services');
-$this->params['breadcrumbs'][] = $this->title;
+
+
+
 ?>
 <div class="service-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+   
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Service'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
+      <?= GridView::widget([
         'dataProvider' => $dataProvider,
+    
+        'striped'=>true,
+        'condensed'=>true,
+        'showPageSummary'=>false,
+        
+        
+        'panelHeadingTemplate'=>'<div class="pull-right">
+            {toolbar}
+        </div>
+        <h3 class="panel-title">
+            Apartment
+        </h3>
+    ',
+        'panel' => [
+             'before' => false,
+        'after' => false,
+            'footer'=>false,
+
+        'type'=>'primary'],
+        
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+         
+            ['class' => 'kartik\grid\SerialColumn'],
 
-            'id',
-            'language',
-            'name',
-            'price',
-            'type',
-            // 'status',
+          'id',
+          'name',
+            [
+               'attribute' => 'price',
+                'format' => 'integer',
+               
+               
+            ],
+                  
 
-            ['class' => 'yii\grid\ActionColumn'],
+          
         ],
     ]); ?>
+    
 </div>
+<p>
+        <?= Html::a(Yii::t('app', 'Create Service'), ['create'], ['class' => 'btn btn-success']) ?>
+</p>

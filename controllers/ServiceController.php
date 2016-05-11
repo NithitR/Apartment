@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use app\models\ServiceApartment;
+
 /**
  * ServiceController implements the CRUD actions for Service model.
  */
@@ -35,8 +37,20 @@ class ServiceController extends Controller
      */
     public function actionIndex()
     {
+        $request = Yii::$app->request;
+        $id = $request->get('id');
+
+        $sql = "SELECT service_id as id FROM serviceApartment WHERE apartment_id = ' ".$id."'";
+        $listOfService = ServiceApartment::findBySql($sql)->all(); 
+
+        foreach ($listOfService as $x){
+            var_dump($x['id']);
+        }//end loop
+           //var_dump($listOfService['service_id']);
+        //$listOfService= ServiceApartment::find('service_id')->where(['apartment_id' => $id])->all();
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Service::find(),
+            'query' =>  Service::find()->where(['id' =>$listOfService]),
         ]);
 
         return $this->render('index', [
@@ -72,6 +86,21 @@ class ServiceController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+    
+    
+    
+      public function actionAddname()
+    {
+          $model = new Service();
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index' => $model->id]);
+        } else {
+             return $this->renderAjax('_form2', [
+                'model' => $model,
+            ]);
+        }
+            
     }
 
     /**

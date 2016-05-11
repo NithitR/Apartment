@@ -25,16 +25,13 @@ $serviceName = [];
     <?php $form = ActiveForm::begin(); ?>
 
     
-    <?=  $form->field($model, 'name')->dropDownList($serviceName);
-            ?>
+    <?=  $form->field($model, 'name')->textInput()?>
     
 
     <?= $form->field($model, 'price')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Add Name'),['addname'],['id'=>'popupModal','class' =>'btn btn-success pull-right']);?>
-              
     </div>
     
 

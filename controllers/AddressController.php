@@ -51,7 +51,7 @@ class AddressController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -66,7 +66,7 @@ class AddressController extends Controller
         $model = new Address();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['apartment/create']);
         } else {
             return $this->render('create', [
                 'model' => $model,

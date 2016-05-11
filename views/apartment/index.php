@@ -1,8 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
-
+//use yii\grid\GridView;
+use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\SearchApartment */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -11,11 +11,9 @@ use yii\grid\GridView;
 <div class="apartment-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Apartment'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    
     
     <?php
         yii\bootstrap\Modal::begin(['id' =>'modal']);
@@ -24,20 +22,56 @@ use yii\grid\GridView;
     
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    
+        'striped'=>true,
+        'condensed'=>true,
+        'showPageSummary'=>true,
+        
+        
+        'panelHeadingTemplate'=>'<div class="pull-right">
+            {toolbar}
+        </div>
+        <h3 class="panel-title">
+            Apartment
+        </h3>
+    ',
+        'panel' => [
+             'before' => false,
+        'after' => false,
+            'footer'=>false,
 
-            'id',
+        'type'=>'primary'],
+        
+        'columns' => [
+         
+            ['class' => 'kartik\grid\SerialColumn'],
+
+            [
+           'attribute'=>'id',
+           'format' => 'raw',
+           'value'=>function ($data) {
+            return Html::a($data->address_id,['service/index','id'=>$data->id]);
+                },
+            ],
             'apartment_name',
             'member_id',
-            'number',
-            'rooms',
-           [
+             [
+               'attribute' => 'number',
+                'format' => 'integer',
+                'pageSummary'=>true
+               
+            ],
+            [
+               'attribute' => 'rooms',
+                'format' => 'integer',
+                'pageSummary'=>true
+               
+            ],
+                    [
            'attribute'=>'address_id',
            'format' => 'raw',
            'value'=>function ($data) {
-            return Html::a($data->address_id,['site/index','id'=>$data->id],['class' =>'popupModal']);
+            return Html::a($data->address_id,['address/view','id'=>$data->address_id],['class' =>'popupModal']);
                 },
             ],
 
@@ -45,3 +79,7 @@ use yii\grid\GridView;
         ],
     ]); ?>
 </div>
+<p>
+        <?= Html::a(Yii::t('app', 'Create Apartment'), ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
