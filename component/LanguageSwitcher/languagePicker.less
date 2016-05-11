@@ -1,0 +1,199 @@
+/*mixin*/
+.createFlags(@offset, @height, @iterator:0 ) when (@iterator < length(@languages)) {
+  @language: extract(@languages, @iterator+1);
+  @name: extract(@language, 1);
+  &[lang=@{name}] {
+    background-position: 0 @offset + (@height * @iterator);
+  }
+  .createFlags(@offset, @height, (@iterator + 1))
+}
+
+.createText(@iterator:0 ) when (@iterator < length(@languages)) {
+  @language: extract(@languages, @iterator+1);
+  @name: extract(@language, 1);
+  @ll: extract(@language, 2);
+  @el: extract(@language, 3);
+  .lang-en[lang=@{name}]:after {
+    content: @el;
+  }
+  .lang-lbl[lang=@{name}]:after {
+    content: @ll;
+  }
+  .lang-lbl-full[lang=@{name}]:after {
+    content: "@{ll}\0000A0/\0000A0@{el}"
+  }
+  .createText((@iterator + 1))
+}
+
+.createText();
+
+.btn {
+  > .lang-sm {
+    top: 2px;
+    :after {
+      top: -2px
+    }
+  }
+  > .lang-xs {
+    top: 4px;
+    &:after {
+      top: -4px
+    }
+  }
+  &.btn-xs {
+    > .lang-sm,
+    > .lang-sm:after {
+      top: 0
+    }
+    > .lang-xs {
+      top: 3px;
+      :after {
+        top: -3px
+      }
+    }
+  }
+  &.btn-sm {
+    > .lang-sm,
+    > .lang-sm:after {
+      top: 0
+    }
+    > .lang-xs {
+      top: 3px;
+      &:after {
+        top: -3px
+      }
+    }
+  }
+  &.btn-lg {
+    > .lang-lg {
+      top: 1px;
+      :after {
+        top: -1px
+      }
+    }
+    > .lang-sm {
+      top: 3px;
+      &:after {
+        top: -3px
+      }
+    }
+    > .lang-xs {
+      top: 6px;
+      &:after {
+        top: -6px
+      }
+    }
+  }
+}
+
+.lang-xs {
+  top: 4px;
+  background-position: 0 -473px;
+  min-width: 14px;
+  height: 11px;
+  min-height: 11px;
+  max-height: 11px;
+  &.lang-lbl,
+  &.lang-lbl-en,
+  &.lang-lbl-full {
+    padding-left: 16px;
+  }
+  &:after {
+    top: -4px;
+  }
+  .createFlags(0, -11px);
+}
+
+.lang-sm {
+  top: 1px;
+  background-position: 0 -1172px;
+  min-width: 22px;
+  height: 16px;
+  min-height: 16px;
+  max-height: 16px;
+  vertical-align: middle;
+  &.lang-lbl,
+  &.lang-lbl-en,
+  &.lang-lbl-full {
+    padding-left: 24px;
+  }
+  &:after {
+    top: -1px;
+  }
+  .createFlags(-484px, -16px);
+}
+
+.lang-lg {
+  top: 0;
+  background-position: 0 -2134px;
+  min-width: 30px;
+  height: 22px;
+  min-height: 22px;
+  max-height: 22px;
+  &.lang-lbl,
+  &.lang-lbl-en,
+  &.lang-lbl-full {
+    padding-left: 32px;
+  }
+  &:after {
+    top: 0;
+  }
+  .createFlags(-1188px, -22px);
+}
+
+.lang-xs, .lang-sm, .lang-lg {
+  background-repeat: no-repeat;
+  display: inline-block;
+  background-image: url(languages.png);
+  position: relative;
+  &:after {
+    position: relative;
+  }
+  &:before {
+    content: '\0000A0';
+  }
+}
+
+@languages: ar "\000627\000644\000639\000631\000628\00064A\000629" "Arabic",
+be "\000411\000435\00043B\000430\000440\000443\000441\00043A\000456" "Belarusian",
+bg "\000411\00044A\00043B\000433\000430\000440\000441\00043A\000438" "Bulgarian",
+cs "\00010Ce\000161tina" "Czech",
+da "Dansk" "Danish",
+de "Deutsch" "German",
+el "\000395\0003BB\0003BB\0003B7\0003BD\0003B9\0003BA\0003AC" "Greek",
+en-US "English" "English",
+es "Espa\0000F1ol" "Spanish",
+et "Eesti" "Estonian",
+fi "Suomi" "Finnish",
+fr "Fran\0000E7ais" "French",
+ga "Gaeilge" "Irish",
+hi "\000939\00093F\000902\000926\000940" "Hindi",
+hr "Hrvatski" "Croatian",
+hu "Magyar" "Hungarian",
+in "Bahasa\000020indonesia" "Indonesian",
+is "\0000CDslenska" "Icelandic",
+it "Italiano" "Italian",
+iw "\0005E2\0005D1\0005E8\0005D9\0005EA" "Hebrew",
+ja "\0065E5\00672C\008A9E" "Japanese",
+ko "\00D55C\00AD6D\00C5B4" "Korean",
+lt "Lietuvi\000173" "Lithuanian",
+lv "Latvie\000161u" "Latvian",
+mk "\00041C\000430\00043A\000435\000434\00043E\00043D\000441\00043A\000438" "Macedonian",
+ms "Bahasa\000020melayu" "Malay",
+mt "Malti" "Maltese",
+nl "Nederlands" "Dutch",
+no "Norsk" "Norwegian",
+pl "Polski" "Polish",
+pt "Portugu\0000EAs" "Portuguese",
+ro "Rom\0000E2n\000103" "Romanian",
+ru "\000420\000443\000441\000441\00043A\000438\000439" "Russian",
+sk "Sloven\00010Dina" "Slovak",
+sl "Sloven\000161\00010Dina" "Slovenian",
+sq "Shqipe" "Albanian",
+sr "\000421\000440\00043F\000441\00043A\000438" "Serbian",
+sv "Svenska" "Swedish",
+th-TH "\000E44\000E17\000E22" "Thai",
+tr "T\0000FCrk\0000E7e" "Turkish",
+uk "\000423\00043A\000440\000430\000457\00043D\000441\00044C\00043A\000430" "Ukrainian",
+vi "Ti\001EBFng\000020vi\001EC7t" "Vietnamese",
+zh "\004E2D\006587" "Chinese";
